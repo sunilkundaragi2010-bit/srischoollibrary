@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRI Library – Sri Ranganath International School, Bagalkot</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d2145;--navy2:#163269;--navy3:#1a3a6e;
+  --gold:#c8922a;--gold2:#e8b44a;--gold3:#fff3d6;
+  --cream:#f8f5ef;--cream2:#f0ebe0;--white:#ffffff;
+  --text:#1a1a2e;--muted:#5a6072;--border:#d8d0c0;
+  --red:#a0291e;--teal:#1a6b5a;--green:#2e6e2e;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);line-height:1.6;font-size:15px}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--navy);color:rgba(255,255,255,.7);font-size:11.5px;letter-spacing:.04em;padding:5px 40px;display:flex;justify-content:space-between;align-items:center}
+.topbar a{color:rgba(255,255,255,.7);text-decoration:none}.topbar a:hover{color:var(--gold2)}
+.topbar-r{display:flex;gap:18px}
+
+/* ── HEADER ── */
+header{background:var(--white);border-bottom:3px solid var(--gold);padding:0 40px;position:sticky;top:0;z-index:100;box-shadow:0 2px 14px rgba(0,0,0,.09)}
+.hdr{display:flex;align-items:center;justify-content:space-between;height:70px;max-width:1280px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit}
+.logo-badge{width:50px;height:50px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-badge svg{width:28px;height:28px;fill:var(--gold)}
+.logo-words .n1{font-family:'EB Garamond',serif;font-size:19px;font-weight:600;color:var(--navy);display:block;line-height:1.15}
+.logo-words .n2{font-size:10.5px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;display:block}
+nav{display:flex;align-items:center;gap:2px}
+nav>a,nav>.drop>a{font-size:13px;font-weight:500;color:var(--navy);text-decoration:none;padding:7px 11px;border-radius:4px;letter-spacing:.02em;white-space:nowrap;transition:background .15s,color .15s;cursor:pointer;display:block}
+nav>a:hover,nav>.drop>a:hover{background:var(--cream);color:var(--gold)}
+nav>a.cur{border-bottom:2px solid var(--gold);color:var(--gold)}
+.drop{position:relative}
+.drop>a::after{content:' ▾';font-size:9px}
+.dmenu{display:none;position:absolute;top:calc(100% + 2px);left:0;background:var(--white);border:1px solid var(--border);border-top:2px solid var(--gold);min-width:220px;box-shadow:0 8px 24px rgba(0,0,0,.11);border-radius:0 0 6px 6px;overflow:hidden;z-index:300}
+.dmenu a{display:block;padding:10px 18px;font-size:13px;color:var(--text);text-decoration:none;border-bottom:1px solid var(--cream2)}
+.dmenu a:last-child{border-bottom:none}
+.dmenu a:hover{background:var(--cream);color:var(--gold)}
+.drop:hover .dmenu{display:block}
+.ham{display:none;background:none;border:none;font-size:22px;cursor:pointer;color:var(--navy)}
+
+/* ── PAGE SECTIONS ── */
+.page{display:none}.page.active{display:block}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(130deg,var(--navy) 0%,var(--navy2) 55%,var(--navy3) 100%);color:#fff;padding:72px 40px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-70px;right:-70px;width:360px;height:360px;border:45px solid rgba(200,146,42,.11);border-radius:50%}
+.hero::after{content:'';position:absolute;bottom:-90px;left:8%;width:220px;height:220px;border:35px solid rgba(200,146,42,.07);border-radius:50%}
+.hero-in{max-width:1280px;margin:0 auto;position:relative;z-index:1}
+.hero-tag{display:inline-block;background:var(--gold);color:var(--navy);font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;padding:4px 13px;border-radius:2px;margin-bottom:18px}
+.hero h1{font-family:'EB Garamond',serif;font-size:clamp(28px,4.5vw,50px);font-weight:500;line-height:1.15;margin-bottom:14px;max-width:720px}
+.hero p{font-size:15px;color:rgba(255,255,255,.78);max-width:580px;margin-bottom:30px;line-height:1.7}
+.hero-btns{display:flex;gap:13px;flex-wrap:wrap}
+.btn-gold{background:var(--gold);color:var(--navy);border:none;padding:12px 28px;border-radius:4px;font-size:13.5px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;letter-spacing:.02em;transition:background .15s}
+.btn-gold:hover{background:var(--gold2)}
+.btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4);padding:12px 28px;border-radius:4px;font-size:13.5px;font-weight:500;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .15s,background .15s}
+.btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+
+/* ── STATS ── */
+.statsbar{background:var(--white);border-bottom:1px solid var(--border)}
+.stats{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.stat{padding:22px 28px;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-n{font-family:'EB Garamond',serif;font-size:34px;font-weight:600;color:var(--navy);display:block;line-height:1;margin-bottom:3px}
+.stat-l{font-size:11.5px;color:var(--muted);letter-spacing:.07em;text-transform:uppercase}
+
+/* ── GENERIC SECTION ── */
+.sec{padding:60px 40px}
+.sec-in{max-width:1280px;margin:0 auto}
+.sec-hdr{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.sec-eye{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.sec-title{font-family:'EB Garamond',serif;font-size:27px;font-weight:500;color:var(--navy);line-height:1.2}
+.sec-link{font-size:13px;color:var(--gold);text-decoration:none;font-weight:500;white-space:nowrap}
+.sec-link:hover{text-decoration:underline}
+.bg-white{background:var(--white)}
+.bg-cream{background:var(--cream)}
+.bg-navy{background:var(--navy);color:#fff}
+
+/* ── PRINCIPAL MSG ── */
+.msg-grid{display:grid;grid-template-columns:260px 1fr;gap:48px;align-items:start}
+.msg-card{background:var(--cream2);border:1px solid var(--border);border-top:4px solid var(--gold);border-radius:6px;padding:28px 22px;text-align:center}
+.msg-avatar{width:80px;height:80px;border-radius:50%;background:var(--navy);color:var(--gold);font-family:'EB Garamond',serif;font-size:28px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;border:3px solid var(--gold)}
+.msg-name{font-weight:600;font-size:15px;color:var(--navy);margin-bottom:2px}
+.msg-role{font-size:12px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+.msg-divider{width:40px;height:2px;background:var(--gold);margin:12px auto}
+.msg-body{font-family:'EB Garamond',serif;font-size:16.5px;color:var(--text);line-height:1.8}
+.msg-body p{margin-bottom:14px}
+.msg-sig{margin-top:20px;font-size:13px;color:var(--muted);font-style:italic;border-top:1px solid var(--border);padding-top:14px}
+.also-card{background:var(--cream2);border:1px solid var(--border);border-top:4px solid var(--navy2);border-radius:6px;padding:22px;text-align:center;margin-top:16px}
+
+/* ── QUICK ACCESS ── */
+.quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:14px}
+.qcard{background:var(--white);border:1px solid var(--border);border-top:3px solid var(--navy);border-radius:4px;padding:22px 16px;text-align:center;text-decoration:none;color:inherit;transition:box-shadow .15s,border-top-color .15s,transform .15s;cursor:pointer;display:block}
+.qcard:hover{box-shadow:0 6px 22px rgba(0,0,0,.1);border-top-color:var(--gold);transform:translateY(-2px)}
+.qcard .ico{width:44px;height:44px;background:var(--cream2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 11px;font-size:20px}
+.qcard .ql{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:3px}
+.qcard .qs{font-size:11.5px;color:var(--muted)}
+
+/* ── ABOUT / COLLECTIONS ── */
+.about-txt p{color:var(--muted);margin-bottom:14px;line-height:1.78;font-size:14.5px}
+.info-list{list-style:none}
+.info-list li{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--border);font-size:14px}
+.info-list li:last-child{border-bottom:none}
+.ico-circle{width:32px;height:32px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;color:var(--gold)}
+.il-label{font-weight:600;font-size:13px;color:var(--navy)}
+.il-val{font-size:13px;color:var(--muted)}
+
+/* ── COLLECTIONS TABLE ── */
+.coll-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.coll-box{background:var(--white);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.coll-hd{background:var(--navy);color:#fff;padding:10px 18px;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.coll-hd.gold{background:var(--gold);color:var(--navy)}
+.coll-hd.teal{background:var(--teal);color:#fff}
+.coll-table{width:100%;border-collapse:collapse}
+.coll-table td{padding:10px 18px;font-size:13.5px;border-bottom:1px solid var(--cream2)}
+.coll-table tr:last-child td{border-bottom:none}
+.coll-table td:last-child{text-align:right;font-weight:600;color:var(--navy)}
+.coll-table tr:nth-child(even) td{background:var(--cream)}
+
+/* ── SERVICES ── */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.svc-card{background:var(--cream2);border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:4px;padding:16px 18px;font-size:13.5px;font-weight:500;color:var(--navy);display:flex;align-items:center;gap:10px}
+.svc-card::before{content:'✦';font-size:10px;color:var(--gold);flex-shrink:0}
+
+/* ── WORKING HOURS ── */
+.hours-layout{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
+.hours-box{background:var(--white);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.hours-box-hd{background:var(--navy);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.hours-row{display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border-bottom:1px solid var(--cream2);font-size:14px}
+.hours-row:last-child{border-bottom:none}
+.hours-row:nth-child(odd){background:var(--cream)}
+.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-open{background:#e8f5e9;color:#2e7d32}
+.badge-closed{background:#fdecea;color:#c62828}
+.notice{background:#fff8e1;border:1px solid #f9c84a;border-left:4px solid var(--gold);border-radius:4px;padding:16px 18px;margin-top:20px}
+.notice-title{font-weight:600;font-size:13.5px;color:var(--navy);margin-bottom:8px}
+.notice ul{padding-left:18px;color:var(--muted);font-size:13px;line-height:1.9}
+
+/* ── STAFF ── */
+.staff-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.staff-card{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:32px 24px;text-align:center}
+.staff-av{width:80px;height:80px;border-radius:50%;background:var(--navy);color:var(--gold);font-family:'EB Garamond',serif;font-size:28px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;border:3px solid var(--gold)}
+.staff-name{font-weight:600;font-size:16px;color:var(--navy)}
+.staff-qual{font-size:12.5px;color:var(--gold);margin-top:4px;font-weight:500}
+.staff-role{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* ── E-BOOKS ── */
+.books-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.book-item{background:var(--white);border:1px solid var(--border);border-radius:5px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;transition:box-shadow .15s,transform .15s;text-decoration:none;color:inherit}
+.book-item:hover{box-shadow:0 4px 16px rgba(0,0,0,.1);transform:translateY(-1px)}
+.book-num{font-size:11px;font-weight:700;color:var(--gold);background:var(--gold3);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.book-title{font-size:13.5px;font-weight:500;color:var(--navy);line-height:1.35}
+.book-tag{font-size:11px;color:var(--muted);margin-top:3px}
+.books-src{font-size:12px;color:var(--muted);margin-bottom:20px;font-style:italic}
+
+/* ── E-RESOURCES ── */
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.res-card{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:20px 20px;text-decoration:none;color:inherit;transition:box-shadow .15s,transform .15s;display:block}
+.res-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.1);transform:translateY(-2px)}
+.res-card .rc-icon{font-size:28px;margin-bottom:10px}
+.res-card .rc-title{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:5px}
+.res-card .rc-desc{font-size:12.5px;color:var(--muted);line-height:1.5}
+.res-card .rc-link{display:inline-block;margin-top:10px;font-size:12px;font-weight:600;color:var(--gold)}
+
+/* ── KIDS CORNER ── */
+.kids-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+.kids-card{border:1.5px solid var(--border);border-radius:8px;padding:24px 20px;text-align:center;background:var(--white);text-decoration:none;color:inherit;transition:border-color .15s,transform .15s;display:block}
+.kids-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.kids-card .ke{font-size:40px;margin-bottom:12px;display:block}
+.kids-card .kt{font-weight:600;font-size:14.5px;color:var(--navy)}
+.kids-card .ks{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* ── NCERT ── */
+.ncert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.ncert-card{background:var(--white);border:1px solid var(--border);border-top:3px solid var(--navy2);border-radius:5px;padding:20px 18px;text-decoration:none;color:inherit;display:block;transition:box-shadow .15s,transform .15s}
+.ncert-card:hover{box-shadow:0 6px 18px rgba(0,0,0,.1);transform:translateY(-2px)}
+.ncert-card .nc-class{font-size:22px;font-weight:600;font-family:'EB Garamond',serif;color:var(--navy);margin-bottom:4px}
+.ncert-card .nc-sub{font-size:12.5px;color:var(--muted)}
+.ncert-card .nc-lnk{font-size:12px;color:var(--gold);font-weight:600;margin-top:10px;display:block}
+
+/* ── DIGITAL LIBRARY ── */
+.dl-layout{display:grid;grid-template-columns:1fr 2fr;gap:48px;align-items:center}
+.dl-text h2{font-family:'EB Garamond',serif;font-size:30px;font-weight:500;margin-bottom:14px;line-height:1.2}
+.dl-text p{color:rgba(255,255,255,.72);font-size:14.5px;line-height:1.7;margin-bottom:24px}
+.dl-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.dl-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:6px;padding:16px 18px;text-decoration:none;color:#fff;transition:background .15s;display:block}
+.dl-card:hover{background:rgba(255,255,255,.15)}
+.dl-card .di{font-size:26px;margin-bottom:8px}
+.dl-card .dt{font-size:14px;font-weight:600;margin-bottom:3px}
+.dl-card .ds{font-size:12px;color:rgba(255,255,255,.6)}
+
+/* ── ACTIVITIES ── */
+.act-note{background:var(--cream2);border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:4px;padding:18px 20px;font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:28px}
+.act-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.act-card{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:20px;text-align:center;font-size:13.5px;font-weight:500;color:var(--navy)}
+.act-card .ae{font-size:32px;margin-bottom:10px;display:block}
+
+/* ── FOOTER ── */
+footer{background:#0a1a38;color:rgba(255,255,255,.7);padding:50px 40px 22px}
+.foot-in{max-width:1280px;margin:0 auto}
+.foot-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:36px}
+.foot-brand .fn{font-family:'EB Garamond',serif;font-size:20px;color:#fff;margin-bottom:8px}
+.foot-brand p{font-size:13px;line-height:1.65;color:rgba(255,255,255,.5)}
+.foot-col h4{font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.foot-col ul{list-style:none}
+.foot-col ul li{margin-bottom:8px;font-size:13px}
+.foot-col ul li a{color:rgba(255,255,255,.6);text-decoration:none;cursor:pointer;transition:color .15s}
+.foot-col ul li a:hover{color:var(--gold2)}
+.foot-bot{border-top:1px solid rgba(255,255,255,.1);padding-top:18px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(255,255,255,.35);flex-wrap:wrap;gap:8px}
+
+/* ── MOBILE ── */
+@media(max-width:960px){
+  .msg-grid,.coll-grid,.hours-layout,.dl-layout{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat{border-right:none;border-bottom:1px solid var(--border)}
+  .foot-top{grid-template-columns:1fr 1fr}
+  nav{display:none}
+  .ham{display:block}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span>📍 Sri Ranganath International School — Shigikeri, Bagalkot Campus | CBSE Affiliated</span>
+  <div class="topbar-r">
+    <a href="javascript:void(0)">School Portal</a>
+    <a href="javascript:void(0)">Contact</a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="hdr">
+    <a class="logo" onclick="showPage('home')" style="cursor:pointer">
+      <div class="logo-badge">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="logo-words">
+        <span class="n1">SRI Library</span>
+        <span class="n2">Sri Ranganath International School · Bagalkot</span>
+      </div>
+    </a>
+    <nav id="mainnav">
+      <a class="cur" onclick="showPage('home')">Home</a>
+      <div class="drop">
+        <a>About Library</a>
+        <div class="dmenu">
+          <a onclick="showPage('about')">About Library</a>
+          <a onclick="showPage('collections')">Library Collections</a>
+          <a onclick="showPage('hours')">Working Hours</a>
+          <a onclick="showPage('staff')">Library Staff</a>
+        </div>
+      </div>
+      <a onclick="showPage('ebooks')">E-Books</a>
+      <a onclick="showPage('qpapers')">Question Papers</a>
+      <a onclick="showPage('kids')">Kids Corner</a>
+      <a onclick="showPage('eresources')">E-Resources</a>
+      <a onclick="showPage('ncert')">NCERT</a>
+      <a onclick="showPage('digital')">Digital Library</a>
+    </nav>
+    <button class="ham" onclick="toggleMobileMenu()">☰</button>
+  </div>
+</header>
+
+<!-- ════════════════ HOME PAGE ════════════════ -->
+<div id="page-home" class="page active">
+
+  <section class="hero">
+    <div class="hero-in">
+      <div class="hero-tag">SRI Library · Bagalkot</div>
+      <h1>Empowering Minds Through the Joy of Reading</h1>
+      <p>A vibrant resource centre at Sri Ranganath International School — offering 3000+ books, digital resources, e-books, NCERT materials, and enriching library activities for every learner.</p>
+      <div class="hero-btns">
+        <a class="btn-gold" onclick="showPage('collections')">Explore Collection</a>
+        <a class="btn-ghost" onclick="showPage('digital')">Digital Library →</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="statsbar">
+    <div class="stats">
+      <div class="stat"><span class="stat-n">3,000+</span><span class="stat-l">Books &amp; Volumes</span></div>
+      <div class="stat"><span class="stat-n">150+</span><span class="stat-l">CDs &amp; DVDs</span></div>
+      <div class="stat"><span class="stat-n">50</span><span class="stat-l">Seating Capacity</span></div>
+      <div class="stat"><span class="stat-n">13+</span><span class="stat-l">Library Services</span></div>
+    </div>
+  </div>
+
+  <!-- Quick Access -->
+  <section class="sec bg-white">
+    <div class="sec-in">
+      <div class="sec-hdr">
+        <div><div class="sec-eye">Navigate</div><div class="sec-title">Quick Access</div></div>
+      </div>
+      <div class="quick">
+        <a class="qcard" onclick="showPage('ebooks')"><div class="ico">📘</div><div class="ql">E-Books</div><div class="qs">Classic literature PDFs</div></a>
+        <a class="qcard" onclick="showPage('qpapers')"><div class="ico">📄</div><div class="ql">Question Papers</div><div class="qs">Exam preparation</div></a>
+        <a class="qcard" onclick="showPage('kids')"><div class="ico">🧒</div><div class="ql">Kids Corner</div><div class="qs">Comics, discovery &amp; science</div></a>
+        <a class="qcard" onclick="showPage('eresources')"><div class="ico">🌐</div><div class="ql">E-Resources</div><div class="qs">CBSE online portals</div></a>
+        <a class="qcard" onclick="showPage('ncert')"><div class="ico">📚</div><div class="ql">NCERT</div><div class="qs">Solutions &amp; textbooks</div></a>
+        <a class="qcard" onclick="showPage('digital')"><div class="ico">💻</div><div class="ql">Digital Library</div><div class="qs">Digital resources</div></a>
+        <a class="qcard" onclick="showPage('collections')"><div class="ico">🗂️</div><div class="ql">Collections</div><div class="qs">Books, journals &amp; CDs</div></a>
+        <a class="qcard" onclick="showPage('hours')"><div class="ico">🕐</div><div class="ql">Working Hours</div><div class="qs">Mon–Sat timings</div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Principal's Message -->
+  <section class="sec bg-cream">
+    <div class="sec-in">
+      <div class="sec-hdr">
+        <div><div class="sec-eye">Leadership</div><div class="sec-title">Principal's Message</div></div>
+      </div>
+      <div class="msg-grid">
+        <div>
+          <div class="msg-card">
+            <div class="msg-avatar">VN</div>
+            <div class="msg-name">Shri Vikram Narvekar</div>
+            <div class="msg-role">Principal</div>
+            <div class="msg-divider"></div>
+            <div style="font-size:12px;color:var(--muted)">Sri Ranganath International School</div>
+          </div>
+          <div class="also-card">
+            <div class="msg-avatar" style="width:64px;height:64px;font-size:22px;background:var(--navy2)">VN</div>
+            <div class="msg-name" style="margin-top:8px">Mrs. Vasudha Narvekar</div>
+            <div class="msg-role">Vice-Principal</div>
+          </div>
+        </div>
+        <div class="msg-body">
+          <p>The school library is the heart of our learning environment. It is a space where curiosity is encouraged, ideas are explored, and a lifelong love for reading is nurtured. Our library provides students with access to a wide range of books, digital resources, and learning activities that support both academic growth and personal development.</p>
+          <p>Through reading programs, quiz competitions, storytelling sessions, and other engaging activities, the library helps students build confidence, improve communication skills, and expand their knowledge beyond the classroom. It also teaches them essential values such as responsibility, discipline, and independent learning.</p>
+          <p>I am proud of the continuous efforts made by our librarian and staff to create a vibrant and welcoming space for all learners. Together, we will continue to inspire our students to read more, learn more, and grow into well-informed and responsible individuals.</p>
+          <div class="msg-sig">— Shri Vikram Narvekar, Principal, Sri Ranganath International School, Bagalkot</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Library Activities -->
+  <section class="sec bg-white">
+    <div class="sec-in">
+      <div class="sec-hdr">
+        <div><div class="sec-eye">Events</div><div class="sec-title">Library Activities</div></div>
+      </div>
+      <div class="act-note">The SRI Library regularly organises enriching activities to promote reading culture and academic engagement among students.</div>
+      <div class="act-grid">
+        <div class="act-card"><span class="ae">🎤</span>Pick &amp; Speak</div>
+        <div class="act-card"><span class="ae">📖</span>Reading Programs</div>
+        <div class="act-card"><span class="ae">🏆</span>Quiz Competitions</div>
+        <div class="act-card"><span class="ae">🗣️</span>Storytelling Sessions</div>
+        <div class="act-card"><span class="ae">📚</span>Books Exhibition</div>
+        <div class="act-card"><span class="ae">💻</span>Computer Lab Activities</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /home -->
+
+<!-- ════════════════ ABOUT PAGE ════════════════ -->
+<div id="page-about" class="page">
+  <section class="hero" style="padding:50px 40px">
+    <div class="hero-in">
+      <div class="hero-tag">About Library</div>
+      <h1>About the SRI Library</h1>
+      <p>The heart of Sri Ranganath International School's academic community — your gateway to knowledge.</p>
+    </div>
+  </section>
+  <section class="sec bg-white">
+    <div class="sec-in">
+      <div class="sec-hdr"><div><div class="sec-eye">Overview</div><div class="sec-title">About Sri Ranganath International School</div></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+        <div class="about-txt">
+          <p>Sri Ranganath International School is an English medium school affiliated by the Central Board of Secondary Education (C.B.S.E), New Delhi. It is the dream child of Kavade Educational Trust, Bagalkot.</p>
+          <p>The school is co-educational and commenced its academic functions from the year July 2009–2010. The school believes in providing international quality education at affordable costs.</p>
+          <p>With a focus on developing multitasking creative team players, the management has a strategic tie-up with "Academy for Creative Teaching" (ACT) to enhance creativity, discipline, and quality systems in the institution.</p>
+          <p>At SRI, a dedicated team of teachers re-orient themselves to new ways of knowledge management with technology-based teaching with an emphasis on self-learning.</p>
+        </div>
+        <div>
+          <ul class="info-list">
+            <li><div class="ico-circle">🏫</div><div><div class="il-label">Affiliation</div><div class="il-val">CBSE, New Delhi</div></div></li>
+            <li><div class="ico-circle">📍</div><div><div class="il-label">Campus Location</div><div class="il-val">Shigikeri, Bagalkot</div></div></li>
+            <li><div class="ico-circle">📅</div><div><div class="il-label">Established</div><div class="il-val">July 2009–2010</div></div></li>
+            <li><div class="ico-circle">🎓</div><div><div class="il-label">Type</div><div class="il-val">Co-educational, English Medium</div></div></li>
+            <li><div class="ico-circle">🏛️</div><div><div class="il-label">Trust</div><div class="il-val">Kavade Educational Trust, Bagalkot</div></div></li>
+            <li><div class="ico-circle">🤝</div><div><div class="il-label">Academic Partner</div><div class="il-val">Academy for Creative Teaching (ACT)</div></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════ COLLECTIONS PAGE ════════════════ -->
+<div id="page-collections" class="page">
+  <section class="hero" style="padding:50px 40px">
+    <div class="hero-in">
+      <div class="hero-tag">About Library</div>
+      <h1>Library Collections</h1>
+      <p>A hybrid collection of printed and electronic resources — the resource centre for all teaching and learning needs.</p>
+    </div>
+  </section>
+  <section class="sec bg-white">
+    <div class="sec-in">
+      <div class="sec-hdr"><div><div class="sec-eye">Infrastructure</div><div class="sec-title">Library Overview</div></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-bottom:36px">
+        <div>
+          <ul class="info-list">
+            <li><div class="ico-circle">🏢</div><div><div class="il-label">Location</div><div class="il-val">Shigikeri Bagalkot Campus — First Floor</div></div></li>
+            <li><div class="ico-circle">🪑</div><div><div class="il-label">Seating Capacity</div><div class="il-val">50 Students</div></div></li>
+            <li><div class="ico-circle">🗂️</div><div><div class="il-label">Circulation Section</div><div class="il-val">First Floor</div></div></li>
+            <li><div class="ico-circle">📦</div><div><div class="il-label">Stock Section</div><div class="il-val">First Floor</div></div></li>
+            <li><div class="ico-circle">💿</div><div><div class="il-label">CD Section</div><div class="il-val">First Floor</div></div></li>
+          </ul>
+        </div>
+        <div class="about-txt">
+          <p>The SRI Library is a resource centre for teaching, learning and being the heart of the academic centre, it is home for all the information services. It plays a proactive role in enabling access to information resources of all kinds.</p>
+          <p>The Library holds a hybrid collection of printed as well as electronic resources which include books, journals, online books, audio-visuals, CDs/DVDs, e-books, e-journals, etc. Currently the library holds over <strong>3000 books</strong>, newspapers and magazines.</p>
+        </div>
+      </div>
+
+      <div class="sec-hdr" style="margin-top:36px"><div><div class="sec-eye">Holdings</div><div class="sec-title">Library Collections at a Glance</div></div></div>
+      <div class="coll-grid">
+        <div class="coll-box">
+          <div class="coll-hd">📚 Books</div>
+          <table class="coll-table">
+            <tr><td>Number of Volumes</td><td>2,500</td></tr>
+            <tr><td>Number of Encyclopedias</td><td>12</td></tr>
+            <tr><td>Number of Dictionaries</td><td>22</td></tr>
+          </table>
+        </div>
+        <div class="coll-box">
+          <div class="coll-hd gold">📰 Periodicals</div>
+          <table class="coll-table">
+            <tr><td>Journals</td><td>02</td></tr>
+            <tr><td>General Magazines</td><td>20</td></tr>
+            <tr><td>News Papers</td><td>06</td></tr>
+          </table>
+        </div>
+        <div class="coll-box" style="grid-column:1/-1">
+          <div class="coll-hd teal">💿 Non-Book Materials</div>
+          <table class="coll-table">
+            <tr><td>CD-ROMs and DVDs</td><td>150</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="sec-hdr" style="margin-top:40px"><div><div class="sec-eye">Services</div><div class="sec-title">Library Services Offered</div></div></div>
+      <div class="svc-grid">
+        <div class="svc-card">Circulation Service</div>
+        <div class="svc-card">Reference Service</div>
+        <div class="svc-card">Reservation Service</div>
+        <div class="svc-card">Digital Library Service</div>
+        <div class="svc-card">Bibliographic Service</div>
+        <div class="svc-card">Current Awareness Service</div>
+        <div class="svc-card">Selective Dissemination Service</div>
+        <div class="svc-card">News Paper Clipping</div>
+        <div class="svc-card">Books Exhibition Service</div>
+        <div class="svc-card">Computer Lab Facilities</div>
+        <div class="svc-card">Digital Library</div>
+        <div class="svc-card">Question Paper Bank Service</div>
+        <div class="svc-card">Reprographic Service</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════ WORKING HOURS PAGE ════════════════ -->
+<div id="page-hours" class="page">
+  <section class="hero" style="padding:50px 40px">
+    <div class="hero-in">
+      <div class="hero-tag">About Library</div>
+      <h1>Library Working Hours</h1>
+      <p>Plan your visit — the SRI Library is open Monday through Saturday for all students and staff.</p>
+    </div>
+  </section>
+  <section class="sec bg-white">
+    <div class="sec-in">
+      <div class="sec-hdr"><div><div class="sec-eye">Timings</div><div class="sec-title">Opening Hours &amp; Rules</div></div></div>
+      <div class="hours-layout">
+        <div>
+          <div class="hours-box">
+            <div class="hours-box-hd">🕐 Library Working Hours</div>
+            <div class="hours-row"><span>Monday – Saturday</span><span><strong>9:00 AM – 3:30 PM</strong> &nbsp;<span class="badge badge-open">Open</span></span></div>
+            <div class="hours-row"><span>Sunday</span><span><span class="badge badge-closed">Closed</span></span></div>
+            <div class="hours-row"><span>Public Holidays</span><span><span class="badge badge-closed">Closed</span></span></div>
+          </div>
+          <div class="hours-box" style="margin-top:20px">
+            <div class="hours-box-hd">🔄 Circulation Timings</div>
+            <div class="hours-row"><span>Monday – Saturday</span><span><strong>All Library Periods</strong></span></div>
+          </div>
+        </div>
+        <div>
+          <div class="notice">
+            <div class="notice-title">📋 Library Rules &amp; Guidelines</div>
+            <ul>
+              <li>Students must carry their library card at all times</li>
+              <li>Maintain silence and discipline inside the library</li>
+              <li>Handle books and materials with care</li>
+              <li>Return borrowed books on time to avoid penalties</li>
+              <li>No food or drinks are allowed inside the library</li>
+              <li>Mobile phones must be kept on silent mode</li>
+              <li>Lost or damaged books must be replaced by the student</li>
+            </ul>
+          </div>
+          <div class="notice" style="margin-top:16px;background:#e8f5e9;border-color:#a5d6a7;border-left-color:var(--green)">
+            <div class="notice-title" style="color:var(--green)">📍 Location</div>
+            <p style="font-size:13px;color:var(--muted)">First Floor, Shigikeri Bagalkot Campus<br>Sri Ranganath International School</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════ STAFF PAGE ════════════════ -->
+<div id="page-staff" class="page">
+  <section class="hero" style="padding:50px 40px">
+    <div class="hero-in">
+      <div class="hero-tag">About Library</div>
+      <h1>Library Staff</h1>
+      <p>Our dedicated library professionals committed to helping every student access knowledge effectively.</p>
+    </div>
+  </section>
+  <section class="sec bg-white">
+    <div class="sec-in">
+      <div class="sec-hdr"><div><div class="sec-eye">Our Team</div><div class="sec-title">Meet the Library Staff</div></div></div>
+      <div class="staff-grid">
+        <div class="staff-card">
+          <div class="staff-av">PA</div>
+          <div class="staff-name">Smt. Prabha Angadi</div>
+          <div class="staff-qual">B.Com, B.L.I.S.C &amp; M.L.I.S.C</div>
+          <div class="staff-role">Librarian, SRI Library</div>
+        </div>
+        <div class="staff-card" style="background:var(--cream)">
+          <div class="staff-av" style="background:var(--navy2)">VN</div>
+          <div class="staff-name">Shri Vikram Narvekar</div>
+          <div class="staff-qual">Principal</div>
+          <div class="staff-role">Sri Ranganath International School</div>
+        </div>
+        <div class="staff-card" style="background:var(--cream)">
+          <div class="staff-av" style="background:var(--navy2)">VN</div>
+          <div class="staff-name">Mrs. Vasudha Narvekar</div>
+          <div class="staff-qual">Vice-Principal</div>
+          <div class="staff-role">Sri Ranganath International School</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════ E-BOOKS PAGE ════════════════ -->
+<div id="page-ebooks" class="page">
+  <section class="hero" style="padding:50px 40px">
+    <div class="hero-in">
+      <div class="hero-tag">E-Books</div>
+      <h1>Free PDF E-Books Archive</h1>
+      <p>Classic literature from the Planet PDF archive — free to read and download.</p>
+    </div>
+  </section>
+  <section class="sec bg-white">
+    <div class="sec-in">
+      <div class="sec-hdr"><div><div class="sec-eye">Classic Literature</div><div class="sec-title">Free PDF E-Books Archive by Planet PDF</div></div></div>
+      <p class="books-src">Source: Planet PDF Archive — Free public domain classics</p>
+      <div class="books-grid">
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_War_of_the_Worlds_NT.pdf" target="_blank"><div class="book-num">1</div><div><div class="book-title">The War of the Worlds</div><div class="book-tag">H.G. Wells</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/Wuthering_Heights_NT.pdf" target="_blank"><div class="book-num">2</div><div><div class="book-title">Wuthering Heights</div><div class="book-tag">Emily Brontë</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/Women_in_Love_NT.pdf" target="_blank"><div class="book-num">3</div><div><div class="book-title">Women in Love</div><div class="book-tag">D.H. Lawrence</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/War_and_Peace_NT.pdf" target="_blank"><div class="book-num">4</div><div><div class="book-title">War and Peace</div><div class="book-tag">Leo Tolstoy</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/Vanity_Fair_NT.pdf" target="_blank"><div class="book-num">5</div><div><div class="book-title">Vanity Fair</div><div class="book-tag">William Thackeray</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/Utopia_NT.pdf" target="_blank"><div class="book-num">6</div><div><div class="book-title">Utopia</div><div class="book-tag">Thomas More</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Red_Badge_of_Courage_NT.pdf" target="_blank"><div class="book-num">7</div><div><div class="book-title">Ulysses</div><div class="book-tag">James Joyce</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/Treasure_Island_NT.pdf" target="_blank"><div class="book-num">8</div><div><div class="book-title">Treasure Island</div><div class="book-tag">R.L. Stevenson</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/Three_Ghost_Stories_NT.pdf" target="_blank"><div class="book-num">9</div><div><div class="book-title">Three Ghost Stories</div><div class="book-tag">Charles Dickens</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Works_of_Edgar_Allan_Poe_NT.pdf" target="_blank"><div class="book-num">10</div><div><div class="book-title">The Works of Edgar Allan Poe</div><div class="book-tag">Edgar Allan Poe</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Way_of_All_Flesh_NT.pdf" target="_blank"><div class="book-num">11</div><div><div class="book-title">The Way of All Flesh</div><div class="book-tag">Samuel Butler</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Time_Machine_NT.pdf" target="_blank"><div class="book-num">12</div><div><div class="book-title">The Time Machine</div><div class="book-tag">H.G. Wells</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Thirty-Nine_Steps_NT.pdf" target="_blank"><div class="book-num">13</div><div><div class="book-title">The Thirty-Nine Steps</div><div class="book-tag">John Buchan</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Strange_Case_of_Dr_Jekyll_NT.pdf" target="_blank"><div class="book-num">14</div><div><div class="book-title">Dr. Jekyll and Mr. Hyde</div><div class="book-tag">R.L. Stevenson</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Scarlet_Letter_NT.pdf" target="_blank"><div class="book-num">15</div><div><div class="book-title">The Scarlet Letter</div><div class="book-tag">Nathaniel Hawthorne</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Red_Badge_of_Courage_NT.pdf" target="_blank"><div class="book-num">16</div><div><div class="book-title">The Red Badge of Courage</div><div class="book-tag">Stephen Crane</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Prince_NT.pdf" target="_blank"><div class="book-num">17</div><div><div class="book-title">The Prince</div><div class="book-tag">Niccolò Machiavelli</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Portrait_of_a_Lady_NT.pdf" target="_blank"><div class="book-num">18</div><div><div class="book-title">The Portrait of a Lady</div><div class="book-tag">Henry James</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Picture_of_Dorian_Gray_NT.pdf" target="_blank"><div class="book-num">19</div><div><div class="book-title">The Picture of Dorian Gray</div><div class="book-tag">Oscar Wilde</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Odyssey_NT.pdf" target="_blank"><div class="book-num">20</div><div><div class="book-title">The Odyssey</div><div class="book-tag">Homer</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Metamorphosis_NT.pdf" target="_blank"><div class="book-num">21</div><div><div class="book-title">The Metamorphosis</div><div class="book-tag">Franz Kafka</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Merry_Adventures_of_Robin_Hood_NT.pdf" target="_blank"><div class="book-num">22</div><div><div class="book-title">The Merry Adventures of Robin Hood</div><div class="book-tag">Howard Pyle</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Legend_of_Sleepy_Hollow_NT.pdf" target="_blank"><div class="book-num">23</div><div><div class="book-title">The Legend of Sleepy Hollow</div><div class="book-tag">Washington Irving</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Lost_World_NT.pdf" target="_blank"><div class="book-num">24</div><div><div class="book-title">The Lost World</div><div class="book-tag">Arthur Conan Doyle</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Last_of_the_Mohicans_NT.pdf" target="_blank"><div class="book-num">25</div><div><div class="book-title">The Last of the Mohicans</div><div class="book-tag">James Fenimore Cooper</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Jungle_Book_NT.pdf" target="_blank"><div class="book-num">26</div><div><div class="book-title">The Jungle Book</div><div class="book-tag">Rudyard Kipling</div></div></a>
+        <a class="book-item" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Island_of_Doctor_Moreau_NT.pdf" target="_blank"><div class="book-num">27</div><div><div class="book-title">The Island of Doctor Moreau</div><div class="book-tag">H.G. Wells</div></div></a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════ QUESTION PAPERS PAGE ════════════════ -->
+<div id="page-qpapers" class="page">
+  <section class="hero" style="padding:50px 40px">
+    <div class="hero-in">
+      <div class="hero-tag">Question Papers</div>
+      <h1>Question Paper Bank</h1>
+      <p>Access previous years' CBSE question papers to strengthen your exam preparation.</p>
+    </div>
+  </section>
+  <section class="sec bg-white">
+    <div class="sec-in">
+      <div class="sec-hdr"><div><div class="sec-eye">Exam Prep</div><div class="sec-title">CBSE Question Papers</div></div></div>
+      <div class="notice" style="margin-bottom:28px">
+        <div class="notice-title">📢 Question Paper Bank Service</div>
+        <p style="font-size:13.5px;color:var(--muted)">The SRI Library provides a comprehensive Question Paper Bank service. Students can access previous years' question papers for all CBSE subjects. Visit the library or contact the librarian — Smt. Prabha Angadi — for access to physical copies.</p>
+      </div>
+      <div class="res-grid">
+        <a class="res-card" href="http://www.cbsepapers.info/" target="_blank"><div class="rc-icon">📋</div><div class="rc-title">CBSE Papers Info</div><div class="rc-desc">Previous years CBSE question papers for all classes and subjects.</div><div class="rc-link">Visit cbsepapers.info →</div></a>
+        <a class="res-card" href="http://www.cbseguess.com/" target="_blank"><div class="rc-icon">🎯</div><div class="rc-title">CBSE Guess</div><div class="rc-desc">Guess papers, sample papers and model test papers for CBSE students.</div><div class="rc-link">Visit cbseguess.com →</div></a>
+        <a class="res-card" href="http://www.cbsenotes.com/" target="_blank"><div class="rc-icon">📝</div><div class="rc-title">CBSE Notes</div><div class="rc-desc">Chapter-wise notes and study material for CBSE curriculum.</div><div class="rc-link">Visit cbsenotes.com →</div></a>
+        <a class="res-card" href="http://cbsetutor.com/" target="_blank"><div class="rc-icon">👨‍🏫</div><div class="rc-title">CBSE Tutor</div><div class="rc-desc">Online tutoring resources and practice papers for CBSE students.</div><div class="rc-link">Visit cbsetutor.com →</div></a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════ KIDS CORNER PAGE ════════════════ -->
+<div id="page-kids" class="page">
+  <section class="hero" style="padding:50px 40px">
+    <div class="hero-in">
+      <div class="hero-tag">Kids Corner</div>
+      <h1>Kids Corner</h1>
+      <p>Fun, learning and discovery — a special zone designed just for young curious minds!</p>
+    </div>
+  </section>
+  <section class="sec bg-white">
+    <div class="sec-in">
+      <div class="sec-hdr"><div><div class="sec-eye">For Young Readers</div><div class="sec-title">Online Resources for Kids</div></div></div>
+      <div class="kids-grid">
+        <a class="kids-card" href="http://www.gocomics.com/" target="_blank">
+          <span class="ke">🗞️</span><div class="kt">Go Comics</div><div class="ks">Comic strips for all ages</div>
+        </a>
+        <a class="kids-card" href="http://www.4kids.org/" target="_blank">
+          <span class="ke">⭐</span><div class="kt">For Kids</div><div class="ks">Fun activities and games</div>
+        </a>
+        <a class="kids-card" href="http://discoverykids.com/" target="_blank">
+          <span class="ke">🔭</span><div class="kt">Discovery for Kids</div><div class="ks">Explore the world around you</div>
+        </a>
+        <a class="kids-card" href="http://www.thekidzpage.com/" target="_blank">
+          <span class="ke">🎨</span><div class="kt">Kids Page</div><div class="ks">Stories, games &amp; fun activities</div>
+        </a>
+        <a class="kids-card" href="https://www.sciencenewsforstudents.org/" target="_blank">
+          <span class="ke">🔬</span><div class="kt">Science News for Students</div><div class="ks">Latest science for young minds</div>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════ E-RESOURCES PAGE ════════════════ -->
+<div id="page-eresources" class="page">
+  <section class="hero" style="padding:50px 40px">
+    <div class="hero-in">
+      <div class="hero-tag">E-Resources</div>
+      <h1>CBSE E-Resources</h1>
+      <p>Curated online portals, study materials, and tools aligned with the CBSE curriculum.</p>
+    </div>
+  </section>
+  <section class="sec bg-white">
+    <div class="sec-in">
+      <div class="sec-hdr"><div><div class="sec-eye">Online Learning</div><div class="sec-title">CBSE E-Resources &amp; Portals</div></div></div>
+      <div class="res-grid">
+        <a class="res-card" href="http://epathshala.nic.in/e-pathshala-4/teacher/" target="_blank"><div class="rc-icon">📱</div><div class="rc-title">e-Pathshala</div><div class="rc-desc">NCERT's e-learning platform with digital textbooks, videos and study material.</div><div class="rc-link">Visit e-Pathshala →</div></a>
+        <a class="res-card" href="http://epathshala.nic.in/e-pathshala-4/teacher/" target="_blank"><div class="rc-icon">👩‍🏫</div><div class="rc-title">e-Pathshala for Teachers</div><div class="rc-desc">Special resources and digital tools curated for CBSE teachers.</div><div class="rc-link">Visit Teachers Portal →</div></a>
+        <a class="res-card" href="http://similarminds.com/career.html" target="_blank"><div class="rc-icon">🎯</div><div class="rc-title">Careers Test</div><div class="rc-desc">Career aptitude tests to help students discover their strengths and interests.</div><div class="rc-link">Take Career Test →</div></a>
+        <a class="res-card" href="http://www.cbseguess.com/" target="_blank"><div class="rc-icon">❓</div><div class="rc-title">CBSE Guess</div><div class="rc-desc">Sample papers, guess papers, and model test papers for CBSE exams.</div><div class="rc-link">Visit CBSE Guess →</div></a>
+        <a class="res-card" href="http://www.cbsenotes.com/" target="_blank"><div class="rc-icon">📝</div><div class="rc-title">CBSE Notes</div><div class="rc-desc">Chapter-wise study notes and revision material for all CBSE classes.</div><div class="rc-link">Visit CBSE Notes →</div></a>
+        <a class="res-card" href="http://www.cbsepapers.info/" target="_blank"><div class="rc-icon">📄</div><div class="rc-title">CBSE Papers Info</div><div class="rc-desc">Previous years' question papers and sample papers for CBSE students.</div><div class="rc-link">Visit CBSE Papers →</div></a>
+        <a class="res-card" href="http://cbsetutor.com/" target="_blank"><div class="rc-icon">👨‍💻</div><div class="rc-title">CBSE Tutor</div><div class="rc-desc">Online tutoring and learning resources for CBSE curriculum students.</div><div class="rc-link">Visit CBSE Tutor →</div></a>
+        <a class="res-card" href="http://www.cbse.nic.in/student.htm" target="_blank"><div class="rc-icon">🏫</div><div class="rc-title">CBSE Study Materials</div><div class="rc-desc">Official CBSE study materials, curriculum documents and student resources.</div><div class="rc-link">Visit CBSE Official →</div></a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════ NCERT PAGE ════════════════ -->
+<div id="page-ncert" class="page">
+  <section class="hero" style="padding:50px 40px">
+    <div class="hero-in">
+      <div class="hero-tag">NCERT</div>
+      <h1>NCERT Solutions &amp; Resources</h1>
+      <p>Complete NCERT solutions for all classes — your companion for board exam preparation.</p>
+    </div>
+  </section>
+  <section class="sec bg-white">
+    <div class="sec-in">
+      <div class="sec-hdr"><div><div class="sec-eye">NCERT</div><div class="sec-title">NCERT Solutions — All Classes</div></div></div>
+      <div class="notice" style="margin-bottom:28px">
+        <div class="notice-title">📚 NCERT Solutions</div>
+        <p style="font-size:13.5px;color:var(--muted)">Access complete chapter-wise NCERT solutions for all subjects. The SRI Library recommends Vedantu's NCERT solutions portal for detailed, verified answers.</p>
+      </div>
+      <div class="ncert-grid">
+        <a class="ncert-card" href="https://www.vedantu.com/ncert-solutions/ncert-solutions-class-6" target="_blank"><div class="nc-class">Class 6</div><div class="nc-sub">All Subjects — Maths, Science, Social, English, Hindi</div><div class="nc-lnk">Open Solutions →</div></a>
+        <a class="ncert-card" href="https://www.vedantu.com/ncert-solutions/ncert-solutions-class-7" target="_blank"><div class="nc-class">Class 7</div><div class="nc-sub">All Subjects — Maths, Science, Social, English, Hindi</div><div class="nc-lnk">Open Solutions →</div></a>
+        <a class="ncert-card" href="https://www.vedantu.com/ncert-solutions/ncert-solutions-class-8" target="_blank"><div class="nc-class">Class 8</div><div class="nc-sub">All Subjects — Maths, Science, Social, English, Hindi</div><div class="nc-lnk">Open Solutions →</div></a>
+        <a class="ncert-card" href="https://www.vedantu.com/ncert-solutions/ncert-solutions-class-9" target="_blank"><div class="nc-class">Class 9</div><div class="nc-sub">All Subjects — Maths, Science, Social, English, Hindi</div><div class="nc-lnk">Open Solutions →</div></a>
+        <a class="ncert-card" href="https://www.vedantu.com/ncert-solutions/ncert-solutions-class-10" target="_blank"><div class="nc-class">Class 10</div><div class="nc-sub">All Subjects — Maths, Science, Social, English, Hindi</div><div class="nc-lnk">Open Solutions →</div></a>
+        <a class="ncert-card" href="https://www.vedantu.com/ncert-solutions/ncert-solutions-class-11" target="_blank"><div class="nc-class">Class 11</div><div class="nc-sub">Maths, Physics, Chemistry, Biology, Accounts, Economics</div><div class="nc-lnk">Open Solutions →</div></a>
+        <a class="ncert-card" href="https://www.vedantu.com/ncert-solutions/ncert-solutions-class-12" target="_blank"><div class="nc-class">Class 12</div><div class="nc-sub">Maths, Physics, Chemistry, Biology, Accounts, Economics</div><div class="nc-lnk">Open Solutions →</div></a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════ DIGITAL LIBRARY PAGE ════════════════ -->
+<div id="page-digital" class="page">
+  <section class="hero" style="padding:50px 40px">
+    <div class="hero-in">
+      <div class="hero-tag">Digital Library</div>
+      <h1>Digital Library</h1>
+      <p>Access the SRI Library's growing digital collection anytime, anywhere — e-books, audio-visuals, CDs/DVDs and online databases.</p>
+    </div>
+  </section>
+  <section class="sec bg-navy">
+    <div class="sec-in">
+      <div class="dl-layout">
+        <div class="dl-text">
+          <div class="sec-eye" style="color:var(--gold2)">Online Access</div>
+          <h2>Your Digital Gateway</h2>
+          <p>The SRI Library Digital Service gives students and teachers access to electronic resources including e-books, CDs/DVDs, online journals, and educational video content — all available through the school network.</p>
+          <a class="btn-gold" onclick="showPage('ebooks')">Browse E-Books</a>
+        </div>
+        <div class="dl-cards">
+          <a class="dl-card" onclick="showPage('ebooks')"><div class="di">📘</div><div class="dt">E-Books Portal</div><div class="ds">Classic literature &amp; academic PDFs</div></a>
+          <a class="dl-card" href="javascript:void(0)"><div class="di">💿</div><div class="dt">CD-ROMs &amp; DVDs</div><div class="ds">150+ audio-visual materials</div></a>
+          <a class="dl-card" onclick="showPage('eresources')"><div class="di">🌐</div><div class="dt">CBSE E-Resources</div><div class="ds">Online portals &amp; study tools</div></a>
+          <a class="dl-card" onclick="showPage('ncert')"><div class="di">📚</div><div class="dt">NCERT Solutions</div><div class="ds">Class 6–12 chapter solutions</div></a>
+          <a class="dl-card" onclick="showPage('qpapers')"><div class="di">📄</div><div class="dt">Question Paper Bank</div><div class="ds">Previous years exam papers</div></a>
+          <a class="dl-card" href="http://epathshala.nic.in/e-pathshala-4/teacher/" target="_blank"><div class="di">📱</div><div class="dt">e-Pathshala</div><div class="ds">NCERT digital platform</div></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="sec bg-white">
+    <div class="sec-in">
+      <div class="sec-hdr"><div><div class="sec-eye">Services</div><div class="sec-title">Digital Library Services at SRI</div></div></div>
+      <div class="svc-grid">
+        <div class="svc-card">Digital Library Service</div>
+        <div class="svc-card">E-Book Access</div>
+        <div class="svc-card">CD-ROM &amp; DVD Collection</div>
+        <div class="svc-card">Computer Lab Facilities</div>
+        <div class="svc-card">Question Paper Bank</div>
+        <div class="svc-card">CBSE Online Resources</div>
+        <div class="svc-card">e-Pathshala Integration</div>
+        <div class="svc-card">NCERT Digital Content</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════ FOOTER ════════════════ -->
+<footer>
+  <div class="foot-in">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="fn">SRI Library</div>
+        <p>Sri Ranganath International School, Shigikeri, Bagalkot<br>CBSE Affiliated · Est. July 2009–2010<br>Kavade Educational Trust, Bagalkot</p>
+      </div>
+      <div class="foot-col">
+        <h4>Library</h4>
+        <ul>
+          <li><a onclick="showPage('about')">About Library</a></li>
+          <li><a onclick="showPage('collections')">Collections</a></li>
+          <li><a onclick="showPage('hours')">Working Hours</a></li>
+          <li><a onclick="showPage('staff')">Library Staff</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a onclick="showPage('ebooks')">E-Books</a></li>
+          <li><a onclick="showPage('qpapers')">Question Papers</a></li>
+          <li><a onclick="showPage('eresources')">E-Resources</a></li>
+          <li><a onclick="showPage('ncert')">NCERT</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Special</h4>
+        <ul>
+          <li><a onclick="showPage('kids')">Kids Corner</a></li>
+          <li><a onclick="showPage('digital')">Digital Library</a></li>
+          <li><a href="http://epathshala.nic.in/" target="_blank">e-Pathshala</a></li>
+          <li><a href="http://www.cbse.nic.in/" target="_blank">CBSE Official</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2025 SRI Library, Sri Ranganath International School, Bagalkot. All rights reserved.</span>
+      <span>Principal: Shri Vikram Narvekar | Vice-Principal: Mrs. Vasudha Narvekar | Librarian: Smt. Prabha Angadi</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('nav>a').forEach(a=>a.classList.remove('cur'));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleMobileMenu(){
+  var n=document.getElementById('mainnav');
+  n.style.display=n.style.display==='flex'?'none':'flex';
+  n.style.flexDirection='column';
+  n.style.position='absolute';
+  n.style.top='70px';
+  n.style.left='0';
+  n.style.right='0';
+  n.style.background='#fff';
+  n.style.padding='16px 20px';
+  n.style.boxShadow='0 8px 24px rgba(0,0,0,.12)';
+  n.style.zIndex='200';
+}
+</script>
+</body>
+</html>
